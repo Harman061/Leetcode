@@ -1,27 +1,33 @@
 class Solution {
 public:
+    
     int maximumSwap(int num) {
+        string numstr = std::to_string(num);
 
-        string num_str_sorted = to_string(num), num_str = to_string(num);
+        int maxidx = -1; int maxdigit = -1;
+        int leftidx = -1; int rightidx = -1;        
 
-        sort(num_str_sorted.begin(), num_str_sorted.end(), greater<int>());
+        for (int i = numstr.size() - 1; i >= 0; --i) {
+            // current digit is the largest by far
+            if (numstr[i] > maxdigit) {
+                maxdigit = numstr[i];
+                maxidx = i;
+                continue;
+            }
 
-        for(int i=0; i<num_str_sorted.size(); i++){
-
-            if(num_str_sorted[i] != num_str[i]){
-                for(int j=num_str.size()-1; j>-1; j--){
-
-                    if(num_str_sorted[i] == num_str[j]){
-                        char temp = num_str[i];
-                        num_str[i] = num_str_sorted[i];
-                        num_str[j] = temp;
-                        break;
-                    }
-                }
-                break;
+            // best candidate for max swap if there is no more 
+            // such situation on the left side
+            if (numstr[i] < maxdigit) {
+                leftidx = i;
+                rightidx = maxidx;
             }
         }
 
-        return stoi(num_str);
+        // num is already in order
+        if (leftidx == -1) return num;
+
+        std::swap(numstr[leftidx], numstr[rightidx]);
+
+        return std::stoi(numstr);
     }
 };
