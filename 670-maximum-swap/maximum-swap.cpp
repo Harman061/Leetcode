@@ -1,33 +1,29 @@
 class Solution {
 public:
-    
     int maximumSwap(int num) {
-        string numstr = std::to_string(num);
-
-        int maxidx = -1; int maxdigit = -1;
-        int leftidx = -1; int rightidx = -1;        
-
-        for (int i = numstr.size() - 1; i >= 0; --i) {
-            // current digit is the largest by far
-            if (numstr[i] > maxdigit) {
-                maxdigit = numstr[i];
-                maxidx = i;
-                continue;
-            }
-
-            // best candidate for max swap if there is no more 
-            // such situation on the left side
-            if (numstr[i] < maxdigit) {
-                leftidx = i;
-                rightidx = maxidx;
+        // Convert the number to a string for easier digit manipulation
+        string numStr = to_string(num);
+        int n = numStr.size();
+        
+        // Store the last occurrence of each digit (0-9)
+        vector<int> last(10, -1);
+        for (int i = 0; i < n; ++i) {
+            last[numStr[i] - '0'] = i;
+        }
+        
+        // Traverse each digit from left to right
+        for (int i = 0; i < n; ++i) {
+            // Check if there's a larger digit appearing later
+            for (int d = 9; d > numStr[i] - '0'; --d) {
+                if (last[d] > i) {
+                    // Swap the current digit with the larger one
+                    swap(numStr[i], numStr[last[d]]);
+                    return stoi(numStr); // Convert back to integer and return
+                }
             }
         }
-
-        // num is already in order
-        if (leftidx == -1) return num;
-
-        std::swap(numstr[leftidx], numstr[rightidx]);
-
-        return std::stoi(numstr);
+        
+        // If no swap was made, return the original number
+        return num;
     }
 };
