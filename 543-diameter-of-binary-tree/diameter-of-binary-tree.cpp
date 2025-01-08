@@ -9,6 +9,8 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
+
+ /*
 class Solution {
 private:
     int maxDepth(TreeNode* root) {
@@ -35,5 +37,26 @@ public:
         int lr =maxDepth(root->left)+maxDepth(root->right);
 
         return max(left,max(right,lr));
+    }
+};*/
+
+class Solution {
+public:
+    int diameterOfBinaryTree(TreeNode* root)
+    {
+        int diameter=0;
+        maxDepth(root,diameter);
+        return diameter;
+    }    
+private:
+    int maxDepth(TreeNode* root, int & diameter)
+    {
+        if(!root) {return 0;}
+
+        int leftHeight=maxDepth(root->left,diameter);
+        int rightHeight=maxDepth(root->right,diameter);
+        diameter=max(diameter,leftHeight+rightHeight);
+        
+        return 1+max(leftHeight,rightHeight);
     }
 };
