@@ -1,19 +1,19 @@
 class Solution {
 public:
     int subsetXORSum(vector<int>& nums) {
-        ret = 0;
-        dfs(nums, 0, 0);
-        return ret;
+        return dfs(nums, 0, 0);
     }
     
-    void dfs(vector<int>& nums, int pos, int cur){
-        if(pos == nums.size()){
-            ret += cur;
-            return;
+private:
+    int dfs(vector<int>& nums, int index, int currentXor) {
+        // Base case: when all elements have been considered
+        if (index == nums.size()) {
+            return currentXor;
         }
-        dfs(nums, pos + 1, cur);
-        dfs(nums, pos + 1, cur ^ nums[pos]);
+        // Include nums[index] in the subset
+        int include = dfs(nums, index + 1, currentXor ^ nums[index]);
+        // Exclude nums[index] from the subset
+        int exclude = dfs(nums, index + 1, currentXor);
+        return include + exclude;
     }
-    
-    int ret;
 };
