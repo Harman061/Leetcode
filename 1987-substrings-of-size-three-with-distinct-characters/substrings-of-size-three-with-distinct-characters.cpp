@@ -1,4 +1,4 @@
-class Solution {
+/*class Solution {
 public:
     int countGoodSubstrings(string s) {
         int ans=0;
@@ -21,6 +21,27 @@ public:
                 j++;
             }
         }
-        return ans;
+        return ans;*/
+
+class Solution {
+public:
+    int countGoodSubstrings(string s) {
+
+        int n=s.length();
+        int k=3;
+        int count=0;
+
+        for(int i=0;i<n;++i)
+        {
+            if(i>=k-1)
+            {
+                string window=s.substr(i-2,3);
+
+                unordered_set<char> set(window.begin(),window.end());
+                if(set.size()==3)
+                ++count;
+            }
+        }
+                return count;
     }
 };
