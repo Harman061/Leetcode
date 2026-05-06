@@ -1,25 +1,33 @@
 class Solution {
 public:
-    vector<vector<char>> rotateTheBox(vector<vector<char>>& box) {
-        int ROWS = box.size();
-        int COLS = box[0].size();
-        
-        vector<vector<char>> res(COLS, vector<char>(ROWS, '.'));
-        
-        for (int r = 0; r < ROWS; r++) {
-            int i = COLS - 1;
-            for (int c = COLS - 1; c >= 0; c--) {
-                if (box[r][c] == '#') {
-                    res[i][ROWS - r - 1] = '#';
-                    i--;
-                }
-                else if (box[r][c] == '*') {
-                    res[c][ROWS - r - 1] = '*';
-                    i = c - 1;
+    vector<vector<char>> rotateTheBox(vector<vector<char>>& boxGrid) {
+        int m = boxGrid.size();
+        int n = boxGrid[0].size();
+
+        // Step 1: simulate gravity (right side)
+        for (int i = 0; i < m; i++) {
+            int empty = n - 1;
+
+            for (int j = n - 1; j >= 0; j--) {
+                if (boxGrid[i][j] == '*') {
+                    empty = j - 1;
+                } 
+                else if (boxGrid[i][j] == '#') {
+                    swap(boxGrid[i][j], boxGrid[i][empty]);
+                    empty--;
                 }
             }
         }
-        
+
+        // Step 2: rotate matrix
+        vector<vector<char>> res(n, vector<char>(m));
+
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                res[j][m - 1 - i] = boxGrid[i][j];
+            }
+        }
+
         return res;
     }
 };
