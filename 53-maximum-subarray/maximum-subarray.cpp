@@ -1,8 +1,8 @@
 class Solution {
 public:
     int maxSubArray(vector<int>& nums) {
-        long long sum=INT_MIN;
-        long long cSum=0;
+        int sum=INT_MIN;
+        int cSum=0;
         for(int i=0;i<nums.size();i++)
         {
             cSum=cSum+nums[i];
